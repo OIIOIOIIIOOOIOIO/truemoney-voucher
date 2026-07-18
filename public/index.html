@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrueWallet Voucher API System</title>
+
+    <!-- Primary Meta Tags -->
+    <meta name="title" content="TrueWallet Voucher API System">
+    <meta name="description" content="ระบบรับ TrueWallet Voucher ผ่าน API | เชื่อมต่อง่าย รวดเร็ว ปลอดภัย">
+    <meta name="keywords" content="TrueWallet, Voucher, API, Payment Gateway">
+    <meta name="author" content="TrueWallet Voucher API System">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://tw.oiio.in.th/">
+    <meta property="og:title" content="TrueWallet Voucher API System">
+    <meta property="og:description" content="ระบบรับ TrueWallet Voucher ผ่าน API | เชื่อมต่อง่าย รวดเร็ว ปลอดภัย">
+    <meta property="og:image" content="https://tw.oiio.in.th/og-image.png">
+    <meta property="og:site_name" content="TrueWallet Voucher API System">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://tw.oiio.in.th/">
+    <meta property="twitter:title" content="TrueWallet Voucher API System">
+    <meta property="twitter:description" content="ระบบรับ TrueWallet Voucher ผ่าน API | เชื่อมต่อง่าย รวดเร็ว ปลอดภัย">
+    <meta property="twitter:image" content="https://tw.oiio.in.th/og-image.png">
+
+    <!-- Discord/Embed -->
+    <meta name="theme-color" content="#000000">
+
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .hero {
+            text-align: center;
+            padding: 80px 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            font-weight: normal;
+        }
+        .hero p {
+            font-size: 18px;
+            margin-bottom: 40px;
+            line-height: 1.6;
+            color: #333;
+        }
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .cta-buttons a {
+            padding: 15px 40px;
+            font-size: 16px;
+            text-decoration: none;
+            border: 2px solid #000;
+            background: #fff;
+            color: #000;
+            transition: all 0.3s;
+            font-family: monospace;
+            font-weight: 600;
+        }
+        .cta-buttons a:hover {
+            background: #000;
+            color: #fff;
+            transform: translate(-2px, -2px);
+            box-shadow: 2px 2px 0 #000;
+        }
+        .cta-buttons a.primary {
+            background: #000;
+            color: #fff;
+        }
+        .cta-buttons a.primary:hover {
+            background: #fff;
+            color: #000;
+        }
+        .features {
+            max-width: 800px;
+            margin: 60px auto;
+            padding: 0 20px;
+        }
+        .feature {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 2px solid #000;
+            transition: all 0.2s;
+        }
+        .feature:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 2px 2px 0 #000;
+        }
+        .feature h3 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-size: 20px;
+        }
+        .feature p {
+            margin: 0;
+            line-height: 1.6;
+            color: #333;
+        }
+        .api-example {
+            max-width: 800px;
+            margin: 60px auto;
+            padding: 0 20px;
+        }
+        .redeem-section {
+            border-top: 2px solid #000;
+            border-bottom: 2px solid #000;
+            background: #f5f5f5;
+            padding: 48px 20px;
+        }
+        .redeem-box {
+            max-width: 620px;
+            margin: 0 auto;
+        }
+        .redeem-box h2 {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+        .redeem-box > p {
+            color: #333;
+            line-height: 1.6;
+            margin-bottom: 24px;
+        }
+        .redeem-form {
+            background: #fff;
+            border: 2px solid #000;
+            padding: 28px;
+        }
+        .redeem-form .btn {
+            margin-top: 4px;
+        }
+        .redeem-form .btn:disabled {
+            cursor: wait;
+            opacity: 0.55;
+            transform: none;
+            box-shadow: none;
+        }
+        .redeem-result {
+            margin-top: 20px;
+            border: 2px solid #000;
+            border-left-width: 6px;
+            background: #fff;
+            padding: 16px;
+            line-height: 1.6;
+        }
+        .redeem-result[hidden] {
+            display: none;
+        }
+        .redeem-result strong {
+            display: block;
+            font-size: 16px;
+            margin-bottom: 4px;
+        }
+        .redeem-result.error {
+            background: #fff0f0;
+            border-color: #b00020;
+        }
+        .redeem-result.success {
+            background: #effaf2;
+            border-color: #16733a;
+        }
+        .api-example h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 32px;
+        }
+        .code-block {
+            background: #000;
+            color: #0f0;
+            padding: 20px;
+            border: 2px solid #000;
+            overflow-x: auto;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        .code-block .comment {
+            color: #666;
+        }
+        .footer {
+            text-align: center;
+            padding: 40px 20px;
+            border-top: 2px solid #000;
+            margin-top: 80px;
+        }
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 36px;
+            }
+            .hero p {
+                font-size: 16px;
+            }
+            .cta-buttons {
+                flex-direction: column;
+            }
+            .cta-buttons a {
+                width: 100%;
+            }
+            .redeem-form {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <h1>TrueWallet Voucher API</h1>
+        <p>ระบบรับ TrueWallet Voucher ผ่าน API<br>
+        เชื่อมต่อง่าย รวดเร็ว ปลอดภัย รองรับการใช้งานทุกรูปแบบ</p>
+        <div class="cta-buttons">
+            <a href="#redeem" class="primary">รับซอง TrueMoney</a>
+            <a href="#api-example">ดู API Document</a>
+            <a href="https://github.com" target="_blank">GitHub</a>
+        </div>
+    </div>
+
+    <section class="redeem-section" id="redeem">
+        <div class="redeem-box">
+            <h2>รับซอง TrueMoney</h2>
+            <p>กรอกลิงก์ซองและเบอร์โทรศัพท์ที่ผูกกับบัญชี TrueMoney Wallet</p>
+
+            <form class="redeem-form" id="redeem-form">
+                <div class="form-group">
+                    <label for="voucher">ลิงก์ซองหรือรหัส Voucher</label>
+                    <input
+                        id="voucher"
+                        name="voucher"
+                        type="text"
+                        placeholder="https://gift.truemoney.com/campaign/?v=..."
+                        autocomplete="off"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="mobile">เบอร์โทรศัพท์ผู้รับ</label>
+                    <input
+                        id="mobile"
+                        name="mobile"
+                        type="tel"
+                        placeholder="0812345678"
+                        inputmode="numeric"
+                        autocomplete="tel"
+                        pattern="0[0-9]{9}"
+                        maxlength="10"
+                        required
+                    >
+                </div>
+
+                <button class="btn btn-primary" id="redeem-button" type="submit">รับเงินเข้าวอลเล็ท</button>
+            </form>
+
+            <div class="redeem-result" id="redeem-result" role="status" aria-live="polite" hidden>
+                <strong id="redeem-result-title"></strong>
+                <span id="redeem-result-message"></span>
+            </div>
+        </div>
+    </section>
+
+    <div class="features">
+        <div class="feature">
+            <h3>🚀 เชื่อมต่อง่าย</h3>
+            <p>เพียงส่ง POST request พร้อม voucher code และเบอร์มือถือ ก็สามารถรับเงินได้ทันที</p>
+        </div>
+
+        <div class="feature">
+            <h3>⚡ รวดเร็ว</h3>
+            <p>ประมวลผลรับ voucher ภายในไม่กี่วินาที พร้อม response ที่ชัดเจน</p>
+        </div>
+
+        <div class="feature">
+            <h3>🔒 ปลอดภัย</h3>
+            <p>รองรับ CORS ทุก origin ใช้งานได้จากทุก platform ปลอดภัยด้วย HTTPS</p>
+        </div>
+
+        <div class="feature">
+            <h3>📊 Response ชัดเจน</h3>
+            <p>ระบบส่ง response ครบถ้วน มีทุก status code ที่จำเป็น จัดการ error ได้ง่าย</p>
+        </div>
+    </div>
+
+    <div class="api-example" id="api-example">
+        <h2>API Documentation</h2>
+
+        <div class="feature">
+            <h3>📡 Endpoint</h3>
+            <div class="code-block">POST https://tw.oiio.in.th/api/:code/:mobile</div>
+        </div>
+
+        <div class="feature">
+            <h3>📝 Parameters</h3>
+            <p style="margin-bottom: 10px;"><code>:code</code> - รหัส voucher (ตัดจาก URL gift.truemoney.com)</p>
+            <p><code>:mobile</code> - เบอร์มือถือผู้รับ (เช่น 0812345678)</p>
+        </div>
+
+        <div class="feature">
+            <h3>💡 ตัวอย่างการใช้งาน</h3>
+            <div class="code-block">
+curl -X POST https://tw.oiio.in.th/api/abc123xyz/0812345678
+            </div>
+        </div>
+
+        <div class="feature">
+            <h3>✅ Response Status Codes</h3>
+            <div style="margin-top: 15px;">
+                <p style="margin-bottom: 8px;"><code>SUCCESS</code> - รับเงินสำเร็จ</p>
+                <p style="margin-bottom: 8px;"><code>TARGET_USER_REDEEMED</code> - คุณรับซองนี้ไปแล้ว</p>
+                <p style="margin-bottom: 8px;"><code>VOUCHER_OUT_OF_STOCK</code> - มีคนรับไปแล้ว</p>
+                <p style="margin-bottom: 8px;"><code>VOUCHER_EXPIRED</code> - ซองวอเลทหมดอายุแล้ว</p>
+                <p style="margin-bottom: 8px;"><code>VOUCHER_NOT_FOUND</code> - ไม่พบซองในระบบ</p>
+                <p style="margin-bottom: 8px;"><code>CANNOT_GET_OWN_VOUCHER</code> - รับซองตัวเองไม่ได้</p>
+                <p style="margin-bottom: 8px;"><code>TARGET_USER_NOT_FOUND</code> - ไม่พบเบอร์ในระบบ</p>
+                <p><code>INTERNAL_ERROR</code> - ไม่พบซองในระบบ หรือ URL ผิด</p>
+            </div>
+        </div>
+
+        <div class="feature">
+            <h3>📄 ตัวอย่าง Response</h3>
+            <div class="code-block">{
+  "status": {
+    "code": "SUCCESS",
+    "message": "Success"
+  },
+  "data": {
+    "voucher": {
+      "amount_baht": "10.00",
+      "member": 1,
+      "status": "active"
+    },
+    "my_ticket": {
+      "amount_baht": "10.00",
+      "mobile": "0812345678"
+    }
+  }
+}</div>
+        </div>
+
+        <div class="feature">
+            <h3>🔧 Example Integration (JavaScript)</h3>
+            <div class="code-block">
+const redeemVoucher = async (code, mobile) => {
+  const response = await fetch(
+    `https://tw.oiio.in.th/api/${code}/${mobile}`,
+    { method: 'POST' }
+  );
+  const result = await response.json();
+
+  if (result.status.code === 'SUCCESS') {
+    console.log('รับเงินสำเร็จ:', result.data.my_ticket.amount_baht);
+  } else {
+    console.error('Error:', result.status.message);
+  }
+
+  return result;
+};
+
+// ใช้งาน
+redeemVoucher('abc123xyz', '0812345678');
+            </div>
+        </div>
+
+        <div class="feature">
+            <h3>🔧 Example Integration (PHP)</h3>
+            <div class="code-block">
+$code = 'abc123xyz';
+$mobile = '0812345678';
+$url = "https://tw.oiio.in.th/api/{$code}/{$mobile}";
+
+$ch = curl_init($url);
+curl_setopt($ch, CURLOPT_POST, true);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+$response = curl_exec($ch);
+curl_close($ch);
+
+$result = json_decode($response, true);
+
+if ($result['status']['code'] === 'SUCCESS') {
+    echo 'รับเงินสำเร็จ: ' . $result['data']['my_ticket']['amount_baht'];
+} else {
+    echo 'Error: ' . $result['status']['message'];
+}
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>TrueWallet Voucher API System © 2025</p>
+        <p style="margin-top: 10px; color: #666;">Made with ❤️ for developers</p>
+    </div>
+
+    <script>
+        const redeemForm = document.getElementById('redeem-form');
+        const redeemButton = document.getElementById('redeem-button');
+        const resultBox = document.getElementById('redeem-result');
+        const resultTitle = document.getElementById('redeem-result-title');
+        const resultMessage = document.getElementById('redeem-result-message');
+
+        redeemForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const voucher = document.getElementById('voucher').value.trim();
+            const mobile = document.getElementById('mobile').value.replace(/\D/g, '');
+            document.getElementById('mobile').value = mobile;
+
+            if (!redeemForm.reportValidity()) {
+                return;
+            }
+
+            redeemButton.disabled = true;
+            redeemButton.textContent = 'กำลังรับเงิน...';
+            resultBox.hidden = true;
+
+            try {
+                let code = voucher;
+                if (voucher.includes('://')) {
+                    const voucherUrl = new URL(voucher);
+                    if (voucherUrl.protocol !== 'https:' ||
+                        voucherUrl.hostname !== 'gift.truemoney.com' ||
+                        voucherUrl.pathname !== '/campaign/') {
+                        throw new Error('INVALID_VOUCHER_URL');
+                    }
+                    code = voucherUrl.searchParams.get('v') || '';
+                }
+                if (!/^[A-Za-z0-9_-]{1,128}$/.test(code)) {
+                    throw new Error('INVALID_VOUCHER_CODE');
+                }
+
+                const response = await fetch(
+                    `/api/${encodeURIComponent(code)}/${encodeURIComponent(mobile)}`,
+                    { method: 'POST' }
+                );
+                const result = await response.json();
+                const statusCode = result.status?.code || result.code || 'UNKNOWN_ERROR';
+                const isSuccess = statusCode === 'SUCCESS';
+
+                resultBox.className = `redeem-result ${isSuccess ? 'success' : 'error'}`;
+                resultTitle.textContent = isSuccess ? 'รับเงินสำเร็จ' : 'ไม่สามารถรับเงินได้';
+
+                if (isSuccess) {
+                    const amount = result.data?.my_ticket?.amount_baht
+                        || result.data?.voucher?.amount_baht;
+                    resultMessage.textContent = amount
+                        ? `ยอดเงิน ${amount} บาท เข้าสู่บัญชีแล้ว`
+                        : 'ระบบรับซองเรียบร้อยแล้ว';
+                    redeemForm.reset();
+                } else {
+                    resultMessage.textContent = `${statusCode}: ${result.status?.message || result.message || 'กรุณาลองใหม่อีกครั้ง'}`;
+                }
+            } catch (error) {
+                resultBox.className = 'redeem-result error';
+                if (error.message === 'INVALID_VOUCHER_URL' ||
+                    error.message === 'INVALID_VOUCHER_CODE') {
+                    resultTitle.textContent = 'ลิงก์ซองไม่ถูกต้อง';
+                    resultMessage.textContent = 'กรุณาตรวจสอบลิงก์หรือรหัส Voucher';
+                } else {
+                    resultTitle.textContent = 'เชื่อมต่อระบบไม่สำเร็จ';
+                    resultMessage.textContent = 'กรุณาลองใหม่อีกครั้ง';
+                }
+            } finally {
+                resultBox.hidden = false;
+                redeemButton.disabled = false;
+                redeemButton.textContent = 'รับเงินเข้าวอลเล็ท';
+            }
+        });
+    </script>
+</body>
+</html>

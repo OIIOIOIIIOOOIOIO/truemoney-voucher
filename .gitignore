@@ -1,0 +1,9 @@
+.env
+tw
+tw.exe
+*-test.exe
+docs/
+.claude/
+.gitlab-ci.yml
+*_test.go
+proxies.json
