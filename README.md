@@ -50,9 +50,9 @@ docker run -p 3000:3000 -e TW_DEBUG_TOKEN=your_secret tw
 ## Architecture
 
 ```
-payment-system ──► tw ──► TrueMoney API (behind Cloudflare)
-                      │
-                      ├── uTLS Firefox 120 TLS handshake
-                      ├── HTTP/2 Chrome SETTINGS + HPACK
-                      └── gzip/brotli decompress
+tw ──► TrueMoney API (behind Cloudflare)
+│
+├── uTLS Firefox 120 TLS handshake
+├── HTTP/2 Chrome SETTINGS + HPACK
+└── gzip/brotli decompress
 ```
